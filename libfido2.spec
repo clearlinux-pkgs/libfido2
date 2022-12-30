@@ -4,7 +4,7 @@
 #
 Name     : libfido2
 Version  : 1.12.0
-Release  : 1
+Release  : 2
 URL      : https://developers.yubico.com/libfido2/Releases/libfido2-1.12.0.tar.gz
 Source0  : https://developers.yubico.com/libfido2/Releases/libfido2-1.12.0.tar.gz
 Summary  : A FIDO2 library
