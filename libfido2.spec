@@ -6,7 +6,7 @@
 #
 Name     : libfido2
 Version  : 1.13.0
-Release  : 5
+Release  : 6
 URL      : https://developers.yubico.com/libfido2/Releases/libfido2-1.13.0.tar.gz
 Source0  : https://developers.yubico.com/libfido2/Releases/libfido2-1.13.0.tar.gz
 Source1  : https://developers.yubico.com/libfido2/Releases/libfido2-1.13.0.tar.gz.sig
