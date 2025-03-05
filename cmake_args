@@ -1,1 +1,2 @@
 -DBUILD_MANPAGES=off
+-DUDEV_RULES_DIR=/usr/lib/udev/rules.d

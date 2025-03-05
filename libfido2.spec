@@ -9,7 +9,7 @@
 #
 Name     : libfido2
 Version  : 1.15.0
-Release  : 9
+Release  : 10
 URL      : https://developers.yubico.com/libfido2/Releases/libfido2-1.15.0.tar.gz
 Source0  : https://developers.yubico.com/libfido2/Releases/libfido2-1.15.0.tar.gz
 Source1  : https://developers.yubico.com/libfido2/Releases/libfido2-1.15.0.tar.gz.sig
@@ -18,6 +18,7 @@ Summary  : A FIDO2 library
 Group    : Development/Tools
 License  : BSD-2-Clause
 Requires: libfido2-bin = %{version}-%{release}
+Requires: libfido2-config = %{version}-%{release}
 Requires: libfido2-lib = %{version}-%{release}
 Requires: libfido2-license = %{version}-%{release}
 BuildRequires : buildreq-cmake
@@ -41,10 +42,19 @@ use preload-fuzz.c to read device data from stdin.
 %package bin
 Summary: bin components for the libfido2 package.
 Group: Binaries
+Requires: libfido2-config = %{version}-%{release}
 Requires: libfido2-license = %{version}-%{release}
 
 %description bin
 bin components for the libfido2 package.
+
+
+%package config
+Summary: config components for the libfido2 package.
+Group: Default
+
+%description config
+config components for the libfido2 package.
 
 
 %package dev
@@ -93,7 +103,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1740525371
+export SOURCE_DATE_EPOCH=1741193607
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -111,7 +121,8 @@ FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
 export GOAMD64=v2
-%cmake .. -DBUILD_MANPAGES=off  -G 'Unix Makefiles'
+%cmake .. -DBUILD_MANPAGES=off \
+-DUDEV_RULES_DIR=/usr/lib/udev/rules.d  -G 'Unix Makefiles'
 make  %{?_smp_mflags}
 popd
 pushd ../buildavx2/
@@ -136,7 +147,8 @@ CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS -march=x86-64-v3 -Wl,-z,x86-64-v3 "
 CXXFLAGS="$CLEAR_INTERMEDIATE_CXXFLAGS -march=x86-64-v3 -Wl,-z,x86-64-v3 "
 FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -march=x86-64-v3 -Wl,-z,x86-64-v3 "
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS -march=x86-64-v3 "
-%cmake .. -DBUILD_MANPAGES=off  -G 'Unix Makefiles'
+%cmake .. -DBUILD_MANPAGES=off \
+-DUDEV_RULES_DIR=/usr/lib/udev/rules.d  -G 'Unix Makefiles'
 make  %{?_smp_mflags}
 popd
 popd
@@ -165,7 +177,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1740525371
+export SOURCE_DATE_EPOCH=1741193607
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libfido2
 cp %{_builddir}/libfido2-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/libfido2/c341b0c5e8b46c2172207c767742425e6ad03326 || :
@@ -193,6 +205,10 @@ popd
 /usr/bin/fido2-assert
 /usr/bin/fido2-cred
 /usr/bin/fido2-token
+
+%files config
+%defattr(-,root,root,-)
+/usr/lib/udev/rules.d/70-u2f.rules
 
 %files dev
 %defattr(-,root,root,-)
